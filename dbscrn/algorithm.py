@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
-from dbscrn.dunn_index import dunn  # Import your custom Dunn index implementation
+from dbscrn.dunn_index import dunn
 from typing import List, Dict
 
 class Point:
