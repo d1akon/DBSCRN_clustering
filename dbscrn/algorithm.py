@@ -8,8 +8,8 @@ class Point:
     """Represents a point in the dataset."""
     def __init__(self, coordinates: np.ndarray):
         self.coordinates = coordinates
-        self.cluster = None  # Initially unassigned
-        self.is_core = False  # Indicates whether the point is a core point
+        self.cluster = None  #--- Initially unassigned
+        self.is_core = False  #--- Indicates whether the point is a core point
 
 
 class DBSCRN:
@@ -31,17 +31,17 @@ class DBSCRN:
         self._initialize_points(data)
         rnn_dict = self._calculate_rnn(data)
 
-        # Identify core points
+        #----- Identify core points
         core_points = []
         for point, rnn in rnn_dict.items():
             if len(rnn) >= self.k:
                 point.is_core = True
                 core_points.append(point)
 
-        # Expand clusters from core points
+        #----- Expand clusters from core points
         clusters = self._expand_clusters(core_points, rnn_dict)
 
-        # Assign remaining points to the nearest cluster
+        #----- Assign remaining points to the nearest cluster
         self._assign_all_points(clusters)
 
         return clusters
@@ -103,7 +103,7 @@ class DBSCRN:
         :param clusters: List of already created clusters.
         """
         for point in self.points:
-            if point.cluster is None:  # If the point is unassigned
+            if point.cluster is None:  #--- If the point is unassigned
                 closest_cluster = None
                 min_distance = float('inf')
 
@@ -114,7 +114,7 @@ class DBSCRN:
                             min_distance = distance
                             closest_cluster = cluster
 
-                # Assign the point to the nearest cluster
+                #--- Assign the point to the nearest cluster
                 if closest_cluster is not None:
                     closest_cluster.append(point)
                     point.cluster = closest_cluster
@@ -134,7 +134,7 @@ class DBSCRN:
             labels = self._get_labels(clusters)
             num_clusters = len(set(labels)) - (1 if -1 in labels else 0)
 
-            # Evaluate metrics
+            #----- Evaluate metrics
             metrics_scores = []
             for metric in metrics:
                 try:
@@ -144,7 +144,7 @@ class DBSCRN:
                     score = float('-inf')
                 metrics_scores.append(score)
 
-            # Combined score with penalty for excessive clusters
+            #----- Combined score with penalty for excessive clusters
             combined_score = (sum(metrics_scores) / len(metrics_scores)) - penalty_weight * num_clusters
 
             if combined_score > best_score:

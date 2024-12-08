@@ -3,19 +3,19 @@ from scipy.spatial.distance import cdist
 
 def dunn(data: np.ndarray, labels: np.ndarray) -> float:
     """
-    Calcula el Dunn Index para evaluar la calidad de los clusters.
+    Calculates the Dunn Index to evaluate the quality of clusters.
     
-    :param data: Matriz de datos (n_samples x n_features).
-    :param labels: Etiquetas de los clusters (n_samples,).
+    :param data: Data matrix (n_samples x n_features).
+    :param labels: Cluster labels (n_samples,).
     :return: Dunn Index (float).
     """
     unique_clusters = np.unique(labels)
     n_clusters = len(unique_clusters)
     
     if n_clusters < 2:
-        return -1  # No se puede calcular si hay menos de 2 clusters
+        return -1  # Cannot calculate if there are fewer than 2 clusters
     
-    # Calcular diámetros de los clusters
+    #----- Calculate the diameters of the clusters
     cluster_diameters = []
     for cluster in unique_clusters:
         points_in_cluster = data[labels == cluster]
@@ -23,11 +23,11 @@ def dunn(data: np.ndarray, labels: np.ndarray) -> float:
             pairwise_distances = cdist(points_in_cluster, points_in_cluster)
             cluster_diameters.append(pairwise_distances.max())
         else:
-            cluster_diameters.append(0)  # Si el cluster tiene un solo punto, diámetro es 0
+            cluster_diameters.append(0)  # If the cluster has only one point, diameter is 0
 
     max_diameter = max(cluster_diameters)
 
-    # Calcular distancias entre clusters
+    #----- Calculate distances between clusters
     inter_cluster_distances = []
     for i, cluster_i in enumerate(unique_clusters):
         points_in_cluster_i = data[labels == cluster_i]
@@ -39,10 +39,10 @@ def dunn(data: np.ndarray, labels: np.ndarray) -> float:
 
     min_inter_cluster_distance = min(inter_cluster_distances)
 
-    # Calcular el índice Dunn
+    #----- Calculate the Dunn Index
     if max_diameter > 0:
         dunn_index = min_inter_cluster_distance / max_diameter
     else:
-        dunn_index = -1  # No es válido si el diámetro máximo es 0
+        dunn_index = -1  #--- It's not valid if the maximum diameter is 0
     
     return dunn_index
