@@ -22,7 +22,7 @@ This repository implements DBSCRN along with tools for dataset analysis, cluster
 * Includes an analyze_dataset function to classify datasets as density-based, classic, or mixed and select appropriate metrics accordingly.
 
 
-Some results applied to both density-based problems and more classical clustering problems:
+Some results obtained by applying it to both density-based problems and more classical clustering problems.
 
 ![image](https://github.com/user-attachments/assets/0dbef1a8-4dcf-4b3b-8e0b-76d749c82638)
 ![image](https://github.com/user-attachments/assets/6829dd06-74b0-446d-9d72-f20975494c3d)
